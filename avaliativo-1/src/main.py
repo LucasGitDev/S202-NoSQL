@@ -18,6 +18,7 @@ def setupCollection():
 
 # assim que o sensor for alarmado, o programa deve ser encerrado
 def generateSensorData(sensor: Sensor, interval: float):
+    print(f'Gerando dados para o sensor {sensor.nomeSensor} a cada {interval} segundos...')
     try:
         while True:
             # gerar um valor entre 30 e 40
@@ -45,9 +46,10 @@ def main():
     threads = []
 
     for i in range(qtdSensores):
+        seconds = random.random() * i * 2
         sensor = sensorServices.create(
             Sensor(f'ST {uuid.uuid4()}', 0, 'C', False))
-        t = threading.Thread(target=generateSensorData, args=(sensor, 1))
+        t = threading.Thread(target=generateSensorData, args=(sensor, seconds))
         threads.append(t)
 
     t1, t2, t3 = threads
